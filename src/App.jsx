@@ -1,100 +1,85 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { motion, AnimatePresence } from 'framer-motion';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 function App() {
-
-  const [input, setInput] = useState("")
+  const [input, setInput] = useState('');
   const [tasks, setTasks] = useState([]);
 
-  //function on button-ADD To add tasks ----------
   const addTask = () => {
-      if (input.trim() === "") {
-      toast("Enter Valid Tasks!")
+    if (input.trim() === '') {
+      toast.error('Enter Valid Tasks!');
       return;
     }
     setTasks([...tasks, input]);
-    setInput("")
-    toast.success("Task Added Successfully !")
-  }
+    setInput('');
+    toast.success('Task Added Successfully!');
+  };
 
-
-  //function on button-DELETE To delete tasks ----------
-  const delTasks=(index)=>{
-    const newTasks = tasks.filter((_,i)=> i!=index);
+  const delTasks = (index) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
     setTasks(newTasks);
-    toast.info("Task Deleted");
-  }
-
+    toast.info('Task Deleted');
+  };
 
   return (
-    <div className='flex flex-col justify-start items-center min-h-screen bg-gray-100 py-12 px-4 '>
-      <h1 className='mb-6 text-4xl 
-      font-bold bg-gradient-to-r 
-      from-pink-500 
-      to-orange-500 bg-clip-text 
-      text-transparent'>
+    <div className='flex flex-col justify-start items-center min-h-screen bg-gray-100 py-12 px-4'>
+      <h1 className='mb-6 text-4xl font-bold bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent'>
         TODO APP
       </h1>
 
-      <div className='w-full max-w-md 
-      bg-white rounded-lg 
-      shadow-md p-6
-      border border-black'>
-
+      <div className='w-full max-w-md bg-white rounded-lg shadow-md p-6 border border-black'>
         <div className='flex mb-6'>
-
-{/* Input Field */}
-
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className='flex-grow px-4 py-2 border 
-            border-gray-300 rounded-l-lg 
-            focus:outline-none focus:ring-2 
-            focus:ring-gray-500 
-            focus:border-transparent'
+            className='flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent'
             placeholder='Write your task...'
           />
-
-{/* Button - ADD */}
-
-          <button onClick={addTask} className='bg-red-500 
-          hover:bg-red-800 
-          text-white font-medium 
-          px-4 py-2 rounded-r-lg 
-          transition duration-200'>
+          <button
+            onClick={addTask}
+            className='bg-red-500 hover:bg-red-800 text-white font-medium px-4 py-2 rounded-r-lg transition duration-200'
+          >
             ADD
           </button>
         </div>
       </div>
+
       <div className='w-full max-w-md px-6 mt-4'>
-
-{/* Task added LIST*/}
-
-        {tasks.map((task, index) => (
-          <div key={index} className='flex items-center justify-between mb-2 text-gray-800 shadow-lg p-3 rounded-lg'>
-            <div className='flex items-center'>
-              <p className='text-lg mr-4 p-3'>✅ {task}</p>
-
-{/* Button - DELETE */}
-
-            </div>
-            <button
-              onClick={() => delTasks(index)}
-              className='bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700'
+        <AnimatePresence>
+          {tasks.map((task, index) => (
+            <motion.div
+              key={task}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{
+                duration: 0.5,
+                ease: 'easeInOut', // This makes the transition smooth
+              }}
+              className='flex items-center justify-between mb-3 p-3 rounded-lg shadow-lg bg-white hover:bg-gray-100 transition-all'
             >
-              Delete
-            </button>
-          </div>
-        ))}
+              <div className='flex items-center'>
+                <p className='text-lg mr-4'>✅ {task}</p>
+              </div>
+              <button
+                onClick={() => delTasks(index)}
+                className='bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700'
+              >
+                Delete
+              </button>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
+
       <ToastContainer />
     </div>
-    )
-  }
-  export default App
+  );
+}
+
+export default App;
 
 
 
