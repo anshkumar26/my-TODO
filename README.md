@@ -16,11 +16,6 @@ A simple and responsive **TODO list** application built using **React + Vite**. 
 
 ---
 
-## 📸 Screenshot
-
-![TODO App Screenshot](https://your-screenshot-url.com) <!-- (Optional: Add a screenshot here) -->
-
----
 
 ## 🛠️ Tech Stack
 
